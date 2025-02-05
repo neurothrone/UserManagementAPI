@@ -1,0 +1,45 @@
+@BaseAddress = https://localhost:7259
+
+### Test with hardcoded valid token
+GET {{BaseAddress}}/api/users?pageNumber=1&pageSize=10
+Authorization: Bearer ValidToken
+Accept: application/json
+
+
+### Test with an invalid token (should return 401)
+GET {{BaseAddress}}/api/users?pageNumber=1&pageSize=10
+Authorization: Bearer InvalidToken
+Accept: application/json
+
+
+### Test missing token
+GET {{BaseAddress}}/api/users?pageNumber=1&pageSize=10
+Accept: application/json
+
+
+### Test valid user creation
+POST {{BaseAddress}}/api/users
+Authorization: Bearer ValidToken
+Content-Type: application/json
+
+{
+  "firstName": "Alice",
+  "lastName": "Johnson",
+  "email": "alice.johnson@example.com"
+}
+
+
+### Test invalid user creation (missing fields)
+POST {{BaseAddress}}/api/users
+Authorization: Bearer ValidToken
+Content-Type: application/json
+
+{
+  "firstName": "Alice"
+}
+
+
+### Test exception handling (invalid endpoint)
+GET {{BaseAddress}}/api/invalid-endpoint
+Authorization: Bearer ValidToken
+Accept: application/json
